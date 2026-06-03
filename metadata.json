@@ -1,0 +1,6 @@
+{
+  "name": "VIBE - Solana Brand-to-NFT",
+  "description": "Genera logos corporativos o mascotas con IA y regístralos directamente como NFTs en Solana Devnet",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

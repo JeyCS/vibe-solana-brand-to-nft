@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+body {
+  background-color: #fafafa;
+  color: #171717;
+  font-family: var(--font-sans);
+}
+
+/* Custom styles for Solana wallet buttons to match the Solana theme properly */
+.wallet-adapter-button {
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  border-radius: 9999px !important;
+  height: 48px !important;
+  font-size: 14px !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.wallet-adapter-button-trigger {
+  background-color: #9945FF !important;
+}
+
+.wallet-adapter-button-trigger:hover {
+  background-color: #14F195 !important;
+  color: #000000 !important;
+}

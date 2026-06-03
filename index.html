@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIBE - Solana Brand-to-NFT</title>
+    <script>
+      (function() {
+        if (typeof window !== 'undefined') {
+          // 1. Install a safe, configurable property descriptor for 'fetch' to avoid TypeError when assigning to window.fetch / globalThis.fetch
+          let originalFetch = window.fetch;
+          try {
+            Object.defineProperty(window, 'fetch', {
+              get() {
+                return originalFetch;
+              },
+              set(value) {
+                originalFetch = value;
+              },
+              configurable: true,
+              enumerable: true
+            });
+          } catch (e) {
+            // Silently ignore configuration failure if platform browser context prohibits defineProperty
+          }
+
+          if (typeof globalThis !== 'undefined' && globalThis !== window) {
+            let originalGlobalThisFetch = globalThis.fetch;
+            try {
+              Object.defineProperty(globalThis, 'fetch', {
+                get() {
+                  return originalGlobalThisFetch;
+                },
+                set(value) {
+                  originalGlobalThisFetch = value;
+                },
+                configurable: true,
+                enumerable: true
+              });
+            } catch (e) {
+              // Silently ignore
+            }
+          }
+
+          // 2. Safe dynamic proxy to mimic 'global' without modifying read-only window properties
+          const globalObject = {};
+          const globalProxy = new Proxy(window, {
+            get(target, prop) {
+              if (prop === 'global' || prop === 'globalThis') {
+                return globalProxy;
+              }
+              if (prop in globalObject) {
+                return globalObject[prop];
+              }
+              const val = target[prop];
+              if (typeof val === 'function') {
+                try {
+                  // Bind window methods to window to prevent illegal invocation errors
+                  return val.bind(target);
+                } catch (e) {
+                  return val;
+                }
+              }
+              return val;
+            },
+            set(target, prop, value) {
+              globalObject[prop] = value;
+              return true;
+            },
+            has(target, prop) {
+              return prop in globalObject || prop in target;
+            }
+          });
+
+          let currentGlobal = globalProxy;
+          try {
+            Object.defineProperty(window, 'global', {
+              get() {
+                return currentGlobal;
+              },
+              set(value) {
+                // Ignore assignments pointing global directly back to read-only window
+                if (value === window || value === globalThis) {
+                  return;
+                }
+                currentGlobal = value;
+              },
+              configurable: true
+            });
+          } catch (e) {
+            window.global = globalProxy;
+          }
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -3,6 +3,8 @@ export interface GeneratedMascot {
   prompt: string;
   style: string;
   mimeType: string;
+  isFallback?: boolean;
+  fallbackReason?: string;
 }
 
 export type MintingMode = "real" | "demo";
